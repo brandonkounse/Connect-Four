@@ -9,9 +9,15 @@ describe Grid do
       subject(:new_grid) { described_class.new }
       let(:columns) { new_grid.columns }
 
-      it 'creates a 2D array of 7 col x 6 rows' do
+      it 'has a grid width of 7' do
         grid_width = 7
         expect(columns.length).to eq(grid_width)
+      end
+
+      it 'has a grid height of 6' do
+        first_row = 0
+        grid_height = 6
+        expect(columns[first_row].length).to eq(grid_height)
       end
     end
   end
