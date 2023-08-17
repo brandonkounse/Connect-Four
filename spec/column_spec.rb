@@ -23,4 +23,21 @@ describe Column do
       end
     end
   end
+
+  describe 'full?' do
+    subject(:new_column) { described_class.new }
+
+    context 'when row is not full' do
+      it 'returns false' do
+        expect(new_column.full?).to be false
+      end
+    end
+
+    context 'when row is full' do
+      it 'returns true' do
+        new_column.row.map! { |spot| spot = '⚫' }
+        expect(new_column.full?).to be true
+      end
+    end
+  end
 end
