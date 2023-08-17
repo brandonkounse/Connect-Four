@@ -2,16 +2,22 @@
 
 # Column state passed to Grid class
 class Column
-  attr_reader :row, :count
+  MAX_COUNT = 6
+
+  attr_reader :row, :current_count
 
   def initialize
     @row = Array.new(6) { |i| i = nil }
-    @count = 0
+    @current_count = 0
     @full = false
   end
 
+  def count
+    @current_count = MAX_COUNT - @row.count(nil)
+  end
+
   def full?
-    @full = true if @row.all? { |spot| !spot.nil? }
+    @full = true if @current_count == MAX_COUNT
 
     @full
   end
