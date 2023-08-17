@@ -15,9 +15,9 @@ describe Grid do
       end
 
       it 'has a grid height of 6' do
-        first_row = 0
+        row = columns[:first].row
         grid_height = 6
-        expect(columns[first_row].length).to eq(grid_height)
+        expect(row.length).to eq(grid_height)
       end
     end
   end
