@@ -11,4 +11,8 @@ class Player
     @name = name
     @symbol = symbol
   end
+
+  def input
+    gets.chomp
+  end
 end
