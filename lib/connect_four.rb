@@ -13,7 +13,9 @@ class ConnectFour
     @player_black = Player.new(name: 'player two', symbol: '⚫')
   end
 
-  def take_turn(player); end
+  def take_turn(player)
+    get_input(player)
+  end
 
   private
 
