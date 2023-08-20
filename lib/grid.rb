@@ -17,4 +17,11 @@ class Grid
       seventh: Column.new
     }
   end
+
+  def update(column, symbol)
+    count = column.count
+    return :full if column.full?
+
+    column.row[(column.row.length - 1) - count] = symbol
+  end
 end
