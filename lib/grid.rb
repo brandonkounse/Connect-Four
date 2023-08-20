@@ -23,5 +23,6 @@ class Grid
     return :full if column.full?
 
     column.row[(column.row.length - 1) - count] = symbol
+    :success
   end
 end
