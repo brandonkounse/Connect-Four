@@ -21,4 +21,37 @@ describe Grid do
       end
     end
   end
+
+  describe 'update' do
+    context 'when column is not full' do
+      subject(:new_grid) { described_class.new }
+      let(:current_column) { new_grid.columns[:first] }
+      let(:player_symbol) { '🔴' }
+
+      it 'updates closest available spot from bottom' do
+        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.row.last }.to('🔴')
+      end
+
+      it 'updates second to last spot from bottom' do
+        current_column.row[5] = '🔴'
+        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.row[4] }.to('🔴')
+      end
+
+      it 'updates top row for a full column' do
+        current_column.row = [nil, '🔴', '🔴', '🔴', '🔴', '🔴']
+        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.row.first }.to('🔴')
+      end
+    end
+
+    context 'when column is full' do
+      subject(:new_grid) { described_class.new }
+      let(:full_column) { new_grid.columns[:second] }
+      let(:player_symbol) { '⚫' }
+
+      it 'returns full' do
+        full_column.row = ['⚫', '⚫', '⚫', '⚫', '⚫', '⚫']
+        expect(new_grid.update(full_column, player_symbol)).to eq(:full)
+      end
+    end
+  end
 end
