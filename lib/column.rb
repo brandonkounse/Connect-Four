@@ -4,7 +4,8 @@
 class Column
   MAX_COUNT = 6
 
-  attr_reader :row, :current_count
+  attr_accessor :row
+  attr_reader :current_count
 
   def initialize
     @row = Array.new(6) { |i| i = nil }
