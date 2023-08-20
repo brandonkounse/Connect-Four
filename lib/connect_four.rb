@@ -14,7 +14,11 @@ class ConnectFour
   end
 
   def take_turn(player)
-    get_input(player)
+    loop do
+      selection = player.input
+      break if valid_input?(selection)
+    end
+    drop_piece(player, selection)
   end
 
   private
@@ -26,9 +30,7 @@ class ConnectFour
     false
   end
 
-  def get_input(player)
-    valid_input?(player.input)
-  end
+  def drop_piece(player, selection); end
 
-  def drop_piece(player); end
+  def select_column(selection); end
 end
