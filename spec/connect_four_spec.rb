@@ -5,29 +5,33 @@ require_relative '../lib/connect_four'
 
 describe ConnectFour do
   describe 'take_turn' do
-    context 'when player takes a turn' do
+    context 'when player picks a column' do
       subject(:connect_four) { described_class.new }
       let(:player_red) { connect_four.player_red }
+      let(:grid) { connect_four.grid }
 
-      context 'when receiving invalid input' do
-
-        before do
-          allow(player_red).to receive(:gets).and_return('37', '7')
-        end
-
-        it 'advises to pick a column 1 thru 7' do
-          expect { connect_four.take_turn(player_red) }.to output("Please pick a column from 1 thru 7\n").to_stdout
-        end
-
-        it 'returns false' do
-          expect(connect_four.take_turn(player_red)).to be false
+      context 'when the column in not full' do
+        it 'drops piece at selected column' do
+          allow(player_red).to receive(:input).and_return('7')
+          expect(connect_four.take_turn(player_red)).to eq(:success)
         end
       end
 
-      context 'when receiving valid input' do
-        it 'returns true' do
-          allow(player_red).to receive(:gets).and_return('7')
-          expect(connect_four.take_turn(player_red)).to be true
+      context 'when the column is full' do
+        let(:full_column) { grid.columns[:seventh] }
+
+        before do
+          full_column.row = ['🔴', '⚫', '🔴', '⚫', '🔴', '⚫']
+        end
+
+        it 'fails once, then succeeds when another column is chosen' do
+          allow(player_red).to receive(:input).and_return('7', '6')
+          expect(connect_four.take_turn(player_red)).to eq(:success)
+        end
+
+        it 'fails three times, then succeeds when another column is chosen' do
+          allow(player_red).to receive(:input).and_return('0', '7', '7', '4')
+          expect(connect_four.take_turn(player_red)).to eq(:success)
         end
       end
     end
