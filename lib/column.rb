@@ -8,7 +8,7 @@ class Column
   attr_reader :current_count
 
   def initialize
-    @squares = Array.new(6) { |i| i = nil }
+    @squares = Array.new(6) { nil }
     @current_count = 0
   end
 
