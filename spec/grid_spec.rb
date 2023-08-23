@@ -54,4 +54,23 @@ describe Grid do
       end
     end
   end
+
+  describe 'list' do
+    subject(:new_grid) { described_class.new }
+    let(:element_array) { [] }
+    let(:block) { proc { |x| element_array << 'x' if x.nil? } }
+
+    context 'when block is given that stores elements' do
+      it 'returns correct length of array' do
+        new_grid.list(&block)
+        expect(element_array.length).to eq(42)
+      end
+    end
+
+    context 'when no block is provided' do
+      it 'does not yield elements' do
+        expect(new_grid.list).to be nil
+      end
+    end
+  end
 end
