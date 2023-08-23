@@ -26,15 +26,16 @@ class Grid
     :success
   end
 
-  # function for yielding every element of every column in sequential order
-  def list
+  def rows
+    queue = []
     current_index = 0
     last_index = 6
     until current_index == last_index
       @columns.each_pair do |_key, value|
-        yield value.squares[current_index] if block_given?
+        queue << value.squares[current_index]
       end
       current_index += 1
     end
+    queue
   end
 end
