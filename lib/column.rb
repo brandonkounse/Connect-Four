@@ -10,7 +10,6 @@ class Column
   def initialize
     @squares = Array.new(6) { |i| i = nil }
     @current_count = 0
-    @full = false
   end
 
   def count
@@ -18,8 +17,6 @@ class Column
   end
 
   def full?
-    @full = true if @current_count == MAX_COUNT
-
-    @full
+    @current_count == MAX_COUNT
   end
 end
