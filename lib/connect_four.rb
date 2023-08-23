@@ -2,9 +2,11 @@
 
 require_relative 'grid'
 require_relative 'player'
+require_relative 'display'
 
 # Game logic
 class ConnectFour
+  include Display
   attr_reader :grid, :player_red, :player_black
 
   def initialize

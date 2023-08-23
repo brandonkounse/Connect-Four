@@ -15,9 +15,9 @@ describe Grid do
       end
 
       it 'has a grid height of 6' do
-        row = columns[:first].row
+        squares = columns[:first].squares
         grid_height = 6
-        expect(row.length).to eq(grid_height)
+        expect(squares.length).to eq(grid_height)
       end
     end
   end
@@ -29,17 +29,17 @@ describe Grid do
       let(:player_symbol) { '🔴' }
 
       it 'updates closest available spot from bottom' do
-        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.row.last }.to('🔴')
+        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.squares.last }.to('🔴')
       end
 
       it 'updates second to last spot from bottom' do
-        current_column.row[5] = '🔴'
-        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.row[4] }.to('🔴')
+        current_column.squares[5] = '🔴'
+        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.squares[4] }.to('🔴')
       end
 
-      it 'updates top row for a full column' do
-        current_column.row = [nil, '🔴', '🔴', '🔴', '🔴', '🔴']
-        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.row.first }.to('🔴')
+      it 'updates top squares for a full column' do
+        current_column.squares = [nil, '🔴', '🔴', '🔴', '🔴', '🔴']
+        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.squares.first }.to('🔴')
       end
     end
 
@@ -49,7 +49,7 @@ describe Grid do
       let(:player_symbol) { '⚫' }
 
       it 'returns full' do
-        full_column.row = ['⚫', '⚫', '⚫', '⚫', '⚫', '⚫']
+        full_column.squares = ['⚫', '⚫', '⚫', '⚫', '⚫', '⚫']
         expect(new_grid.update(full_column, player_symbol)).to eq(:full)
       end
     end

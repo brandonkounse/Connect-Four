@@ -21,7 +21,7 @@ describe ConnectFour do
         let(:full_column) { grid.columns[:seventh] }
 
         before do
-          full_column.row = ['🔴', '⚫', '🔴', '⚫', '🔴', '⚫']
+          full_column.squares = ['🔴', '⚫', '🔴', '⚫', '🔴', '⚫']
         end
 
         it 'fails once, then succeeds when another column is chosen' do

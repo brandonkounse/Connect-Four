@@ -8,10 +8,10 @@ describe Column do
     context 'when a new column in created' do
       subject(:new_column) { described_class.new }
 
-      it 'has a row length of 6' do
-        row = new_column.row
+      it 'has a squares length of 6' do
+        squares = new_column.squares
         column_length = 6
-        expect(row.length).to eq(column_length)
+        expect(squares.length).to eq(column_length)
       end
 
       it 'has a count of zero' do
@@ -27,15 +27,15 @@ describe Column do
   describe 'full?' do
     subject(:new_column) { described_class.new }
 
-    context 'when row is not full' do
+    context 'when squares is not full' do
       it 'returns false' do
         expect(new_column.full?).to be false
       end
     end
 
-    context 'when row is full' do
+    context 'when squares is full' do
       it 'returns true' do
-        new_column.row.map! { |spot| spot = '⚫' }
+        new_column.squares.map! { |spot| spot = '⚫' }
         expect { new_column.count }.to change { new_column.full? }.to true
       end
     end
@@ -46,7 +46,7 @@ describe Column do
       subject(:three_column) { described_class.new }
 
       before do
-        three_column.row.map!.with_index { |spot, index| spot = '⚫' if index.odd? }
+        three_column.squares.map!.with_index { |spot, index| spot = '⚫' if index.odd? }
       end
 
       it 'returns 3' do
@@ -59,7 +59,7 @@ describe Column do
       subject(:five_column) { described_class.new }
 
       before do
-        five_column.row.map!.with_index { |spot, index| spot = '⚫' unless index.zero? }
+        five_column.squares.map!.with_index { |spot, index| spot = '⚫' unless index.zero? }
       end
 
       it 'returns 5' do
