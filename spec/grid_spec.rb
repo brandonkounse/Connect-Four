@@ -38,7 +38,7 @@ describe Grid do
       end
 
       it 'updates top squares for a full column' do
-        current_column.squares = [nil, '🔴', '🔴', '🔴', '🔴', '🔴']
+        current_column.squares = ['◯', '🔴', '🔴', '🔴', '🔴', '🔴']
         expect { new_grid.update(current_column, player_symbol) }.to change { current_column.squares.first }.to('🔴')
       end
     end
@@ -60,7 +60,7 @@ describe Grid do
 
     context 'when all indices are nil' do
       it 'returns a queue of 42 nil' do
-        expect(grid.rows.count(nil)).to eq(42)
+        expect(grid.rows.count('◯')).to eq(42)
       end
     end
   end
