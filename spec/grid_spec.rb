@@ -58,8 +58,8 @@ describe Grid do
   describe 'rows' do
     subject(:grid) { described_class.new }
 
-    context 'when all indices are nil' do
-      it 'returns a queue of 42 nil' do
+    context 'when all indices are empty' do
+      it 'returns a queue of 42 ◯' do
         expect(grid.rows.count('◯')).to eq(42)
       end
     end
