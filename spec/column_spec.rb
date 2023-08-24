@@ -35,7 +35,7 @@ describe Column do
 
     context 'when squares is full' do
       it 'returns true' do
-        new_column.squares.map! { |spot| spot = '⚫' }
+        new_column.squares.map! { |_spot| '⚫' }
         expect { new_column.count }.to change { new_column.full? }.to true
       end
     end
@@ -46,12 +46,14 @@ describe Column do
       subject(:three_column) { described_class.new }
 
       before do
-        three_column.squares.map!.with_index { |spot, index| spot = '⚫' if index.odd? }
+        three_column.squares.map!.with_index do |_spot, index|
+          index.odd? ? '⚫' : '◯'
+        end
       end
 
       it 'returns 3' do
         three = 3
-        expect(three_column.count).to eq(three)
+        expect { three_column.count }.to change { three_column.current_count }.to(three)
       end
     end
 
@@ -59,12 +61,14 @@ describe Column do
       subject(:five_column) { described_class.new }
 
       before do
-        five_column.squares.map!.with_index { |spot, index| spot = '⚫' unless index.zero? }
+        five_column.squares.map!.with_index do |_spot, index|
+          index.zero? ? '◯' : '⚫'
+        end
       end
 
       it 'returns 5' do
         five = 5
-        expect(five_column.count).to eq(five)
+        expect { five_column.count }.to change { five_column.current_count }.to(five)
       end
     end
   end
