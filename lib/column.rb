@@ -8,12 +8,12 @@ class Column
   attr_reader :current_count
 
   def initialize
-    @squares = Array.new(6) { nil }
+    @squares = Array.new(6) { '◯' }
     @current_count = 0
   end
 
   def count
-    @current_count = MAX_COUNT - @squares.count(nil)
+    @current_count = MAX_COUNT - @squares.count('◯')
   end
 
   def full?
