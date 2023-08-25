@@ -19,10 +19,9 @@ class Grid
   end
 
   def update(column, symbol)
-    count = column.count
     return :full if column.full?
 
-    column.squares[(column.squares.length - 1) - count] = symbol
+    column.squares[(column.squares.length - 1) - column.current_count] = symbol
     :success
   end
 
@@ -37,5 +36,16 @@ class Grid
       current_index += 1
     end
     queue
+  end
+
+  def display
+    current_grid = rows
+    puts "\n #{current_grid.shift(7).join('  | ')}" until current_grid.empty?
+  end
+
+  def full?
+    @columns.each_pair.all? do |_key, value|
+      value.full?
+    end
   end
 end
