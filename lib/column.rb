@@ -12,11 +12,14 @@ class Column
     @current_count = 0
   end
 
-  def count
-    @current_count = MAX_COUNT - @squares.count('◯')
+  def full?
+    count
+    @current_count == MAX_COUNT
   end
 
-  def full?
-    @current_count == MAX_COUNT
+  private
+
+  def count
+    @current_count = MAX_COUNT - @squares.count('◯')
   end
 end
