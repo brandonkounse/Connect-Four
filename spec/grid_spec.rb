@@ -64,4 +64,20 @@ describe Grid do
       end
     end
   end
+
+  describe 'full?' do
+    subject(:full_grid) { described_class.new }
+
+    context 'when grid is full' do
+      before do
+        full_grid.columns.each_pair do |_key, value|
+          value.squares.map! { '⚫' }
+        end
+      end
+
+      it 'returns true' do
+        expect(full_grid.full?).to be true
+      end
+    end
+  end
 end
