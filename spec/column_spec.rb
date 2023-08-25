@@ -15,7 +15,7 @@ describe Column do
       end
 
       it 'has a count of zero' do
-        expect(new_column.count).to be_zero
+        expect(new_column.current_count).to be_zero
       end
 
       it 'is not full' do
@@ -36,39 +36,7 @@ describe Column do
     context 'when squares is full' do
       it 'returns true' do
         new_column.squares.map! { |_spot| '⚫' }
-        expect { new_column.count }.to change { new_column.full? }.to true
-      end
-    end
-  end
-
-  describe 'count' do
-    context 'when three spots are occupied' do
-      subject(:three_column) { described_class.new }
-
-      before do
-        three_column.squares.map!.with_index do |_spot, index|
-          index.odd? ? '⚫' : '◯'
-        end
-      end
-
-      it 'returns 3' do
-        three = 3
-        expect { three_column.count }.to change { three_column.current_count }.to(three)
-      end
-    end
-
-    context 'when five spots are occupied' do
-      subject(:five_column) { described_class.new }
-
-      before do
-        five_column.squares.map!.with_index do |_spot, index|
-          index.zero? ? '◯' : '⚫'
-        end
-      end
-
-      it 'returns 5' do
-        five = 5
-        expect { five_column.count }.to change { five_column.current_count }.to(five)
+        expect(new_column.full?).to be true
       end
     end
   end
