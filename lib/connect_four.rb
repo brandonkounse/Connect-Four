@@ -14,28 +14,30 @@ class ConnectFour
   end
 
   def take_turn(player)
-    drop_piece(player)
+    loop do
+      selection = prompt_for_column(player)
+      break if drop_piece(selection, player.symbol) == :success
+    end
   end
 
   private
 
-  def valid_input?(input)
-    return true if input.length == 1 && input.match?(/[1-7]/)
-
-    puts 'Please pick a column from 1 thru 7'
-  end
-
-  def drop_piece(player)
+  def prompt_for_column(player)
     loop do
       selection = player.input
-      selection unless valid_input?(selection)
-      break if @grid.update(select_column(selection), player.symbol) == :success
+      return selection if valid_input?(selection)
+
+      puts 'Please pick a column from 1 thru 7'
     end
-    :success
   end
 
-  def select_column(selection)
-    column_key = @grid.columns.keys[selection.to_i - 1]
-    @grid.columns[column_key]
+  def valid_input?(input)
+    input.length == 1 && input.match?(/[1-7]/)
+  end
+
+  def drop_piece(column, symbol)
+    column_index = column.to_i - 1
+    selected_column = @grid.columns.keys[column_index]
+    @grid.update(@grid.columns[selected_column], symbol)
   end
 end
