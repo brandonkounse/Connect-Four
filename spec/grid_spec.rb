@@ -38,7 +38,7 @@ describe Grid do
       end
 
       it 'updates top squares for a full column' do
-        current_column.squares = ['◯', '🔴', '🔴', '🔴', '🔴', '🔴']
+        current_column.squares = ['⚪', '🔴', '🔴', '🔴', '🔴', '🔴']
         expect { new_grid.update(current_column, player_symbol) }.to change { current_column.squares.first }.to('🔴')
       end
     end
@@ -59,8 +59,8 @@ describe Grid do
     subject(:grid) { described_class.new }
 
     context 'when all indices are empty' do
-      it 'returns a queue of 42 ◯' do
-        expect(grid.rows.count('◯')).to eq(42)
+      it 'returns a queue of 42 ⚪' do
+        expect(grid.rows.count('⚪')).to eq(42)
       end
     end
   end

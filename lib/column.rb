@@ -8,7 +8,7 @@ class Column
   attr_reader :current_count
 
   def initialize
-    @squares = Array.new(6) { '◯' }
+    @squares = Array.new(6) { '⚪' }
     @current_count = 0
   end
 
@@ -20,6 +20,6 @@ class Column
   private
 
   def count
-    @current_count = MAX_COUNT - @squares.count('◯')
+    @current_count = MAX_COUNT - @squares.count('⚪')
   end
 end
