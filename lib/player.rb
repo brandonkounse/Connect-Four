@@ -2,13 +2,9 @@
 
 # Player object to interface with Connect Four
 class Player
-  attr_reader :name, :symbol
+  attr_reader :symbol
 
-  # :black_symbol { U+26AB }
-  # :red_symbol { U+1F534 }
-
-  def initialize(name:, symbol:)
-    @name = name
+  def initialize(symbol:)
     @symbol = symbol
   end
 
