@@ -6,6 +6,8 @@ class Instructions
     system 'clear'
     puts <<~HEREDOC
       In Connect Four, the game is won by getting 4 pieces in a row. The row can be horizontal, vertical, or diagonal. There are two colored pieces in this version, red and black. Good luck!
+
+      Enter [1] to start a new game of Connect Four, or type [2] to exit.
     HEREDOC
   end
 
