@@ -23,34 +23,23 @@ describe Grid do
   end
 
   describe 'update' do
-    context 'when column is not full' do
-      subject(:new_grid) { described_class.new }
-      let(:current_column) { new_grid.columns[:first] }
-      let(:player_symbol) { '🔴' }
+    subject(:grid) { described_class.new }
+    let(:column) { grid.columns[:first] }
+    let(:symbol) { '🔴' }
 
-      it 'updates closest available spot from bottom' do
-        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.spots.last }.to('🔴')
-      end
-
-      it 'updates second to last spot from bottom' do
-        current_column.spots[5] = '🔴'
-        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.spots[4] }.to('🔴')
-      end
-
-      it 'updates top spots for a full column' do
-        current_column.spots = ['⚪', '🔴', '🔴', '🔴', '🔴', '🔴']
-        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.spots.first }.to('🔴')
+    context 'when a column is successfully updated' do
+      it 'returns :success' do
+        expect(grid.update(column, symbol)).to eq(:success)
       end
     end
 
-    context 'when column is full' do
-      subject(:new_grid) { described_class.new }
-      let(:full_column) { new_grid.columns[:second] }
-      let(:player_symbol) { '⚫' }
+    context 'when a column fails to update' do
+      before do
+        6.times { grid.update(column, symbol) }
+      end
 
-      it 'returns full' do
-        full_column.spots = ['⚫', '⚫', '⚫', '⚫', '⚫', '⚫']
-        expect(new_grid.update(full_column, player_symbol)).to eq(:full)
+      it 'returns :full' do
+        expect(grid.update(column, symbol)).to eq(:full)
       end
     end
   end
