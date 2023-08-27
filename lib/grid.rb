@@ -38,11 +38,6 @@ class Grid
     queue
   end
 
-  def display
-    current_grid = rows
-    puts "\n #{current_grid.shift(7).join('  | ')}" until current_grid.empty?
-  end
-
   def full?
     @columns.each_pair.all? do |_key, value|
       value.full?
