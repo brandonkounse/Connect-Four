@@ -4,7 +4,7 @@
 class Column
   MAX_COUNT = 6
 
-  attr_accessor :spots
+  attr_reader :spots
 
   def initialize
     @spots = Array.new(6) { '⚪' }
@@ -16,5 +16,9 @@ class Column
 
   def full?
     count == MAX_COUNT
+  end
+
+  def update(symbol)
+    @spots[(@spots.length - 1) - count] = symbol unless full?
   end
 end
