@@ -15,9 +15,9 @@ describe Grid do
       end
 
       it 'has a grid height of 6' do
-        squares = columns[:first].squares
+        spots = columns[:first].spots
         grid_height = 6
-        expect(squares.length).to eq(grid_height)
+        expect(spots.length).to eq(grid_height)
       end
     end
   end
@@ -29,17 +29,17 @@ describe Grid do
       let(:player_symbol) { '🔴' }
 
       it 'updates closest available spot from bottom' do
-        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.squares.last }.to('🔴')
+        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.spots.last }.to('🔴')
       end
 
       it 'updates second to last spot from bottom' do
-        current_column.squares[5] = '🔴'
-        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.squares[4] }.to('🔴')
+        current_column.spots[5] = '🔴'
+        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.spots[4] }.to('🔴')
       end
 
-      it 'updates top squares for a full column' do
-        current_column.squares = ['⚪', '🔴', '🔴', '🔴', '🔴', '🔴']
-        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.squares.first }.to('🔴')
+      it 'updates top spots for a full column' do
+        current_column.spots = ['⚪', '🔴', '🔴', '🔴', '🔴', '🔴']
+        expect { new_grid.update(current_column, player_symbol) }.to change { current_column.spots.first }.to('🔴')
       end
     end
 
@@ -49,7 +49,7 @@ describe Grid do
       let(:player_symbol) { '⚫' }
 
       it 'returns full' do
-        full_column.squares = ['⚫', '⚫', '⚫', '⚫', '⚫', '⚫']
+        full_column.spots = ['⚫', '⚫', '⚫', '⚫', '⚫', '⚫']
         expect(new_grid.update(full_column, player_symbol)).to eq(:full)
       end
     end
@@ -71,7 +71,7 @@ describe Grid do
     context 'when grid is full' do
       before do
         full_grid.columns.each_pair do |_key, value|
-          value.squares.map! { '⚫' }
+          value.spots.map! { '⚫' }
         end
       end
 

@@ -16,7 +16,7 @@ describe ConnectFour do
         it 'drops piece at selected column' do
           column = grid.columns[:seventh]
           allow(player_red).to receive(:input).and_return('7')
-          expect { connect_four.take_turn(player_red) }.to change { column.squares[last_spot] }.to('🔴')
+          expect { connect_four.take_turn(player_red) }.to change { column.spots[last_spot] }.to('🔴')
         end
 
         it 'drop another piece at same column' do
@@ -24,7 +24,7 @@ describe ConnectFour do
           allow(player_red).to receive(:input).and_return('7')
           allow(player_black).to receive(:input).and_return('7')
           connect_four.take_turn(player_red)
-          expect { connect_four.take_turn(player_black) }.to change { column.squares[last_spot - 1] }.to('⚫')
+          expect { connect_four.take_turn(player_black) }.to change { column.spots[last_spot - 1] }.to('⚫')
         end
       end
 
@@ -32,19 +32,19 @@ describe ConnectFour do
         let(:full_column) { grid.columns[:seventh] }
 
         before do
-          full_column.squares = ['🔴', '⚫', '🔴', '⚫', '🔴', '⚫']
+          full_column.spots = ['🔴', '⚫', '🔴', '⚫', '🔴', '⚫']
         end
 
         it 'fails once, then succeeds when another column is chosen' do
           column = grid.columns[:sixth]
           allow(player_red).to receive(:input).and_return('7', '6')
-          expect { connect_four.take_turn(player_red) }.to change { column.squares[last_spot] }.to('🔴')
+          expect { connect_four.take_turn(player_red) }.to change { column.spots[last_spot] }.to('🔴')
         end
 
         it 'fails three times, then succeeds when another column is chosen' do
           column = grid.columns[:fourth]
           allow(player_red).to receive(:input).and_return('0', '7', '7', '4')
-          expect { connect_four.take_turn(player_red) }.to change { column.squares[last_spot] }.to('🔴')
+          expect { connect_four.take_turn(player_red) }.to change { column.spots[last_spot] }.to('🔴')
         end
       end
     end

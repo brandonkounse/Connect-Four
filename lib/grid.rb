@@ -21,7 +21,7 @@ class Grid
   def update(column, symbol)
     return :full if column.full?
 
-    column.squares[(column.squares.length - 1) - column.current_count] = symbol
+    column.spots[(column.spots.length - 1) - column.current_count] = symbol
     :success
   end
 
@@ -31,7 +31,7 @@ class Grid
     last_index = 6
     until current_index == last_index
       @columns.each_pair do |_key, value|
-        queue << value.squares[current_index]
+        queue << value.spots[current_index]
       end
       current_index += 1
     end

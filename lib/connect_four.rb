@@ -9,8 +9,22 @@ class ConnectFour
 
   def initialize
     @grid = Grid.new
-    @player_red = Player.new(name: 'player one', symbol: '🔴')
-    @player_black = Player.new(name: 'player two', symbol: '⚫')
+    @player_red = Player.new(symbol: '🔴')
+    @player_black = Player.new(symbol: '⚫')
+  end
+
+  def play
+    loop do
+      break if handle_turn(@player_red)
+      break if handle_turn(@player_black)
+    end
+  end
+
+  def handle_turn(player)
+    system 'clear'
+    @grid.display
+    take_turn(player)
+    @grid.full?
   end
 
   def take_turn(player)

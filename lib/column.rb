@@ -4,11 +4,11 @@
 class Column
   MAX_COUNT = 6
 
-  attr_accessor :squares
+  attr_accessor :spots
   attr_reader :current_count
 
   def initialize
-    @squares = Array.new(6) { '⚪' }
+    @spots = Array.new(6) { '⚪' }
     @current_count = 0
   end
 
@@ -20,6 +20,6 @@ class Column
   private
 
   def count
-    @current_count = MAX_COUNT - @squares.count('⚪')
+    @current_count = MAX_COUNT - @spots.count('⚪')
   end
 end

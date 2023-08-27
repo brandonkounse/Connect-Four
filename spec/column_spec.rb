@@ -8,10 +8,10 @@ describe Column do
     context 'when a new column in created' do
       subject(:new_column) { described_class.new }
 
-      it 'has a squares length of 6' do
-        squares = new_column.squares
+      it 'has a length of 6' do
+        spots = new_column.spots
         column_length = 6
-        expect(squares.length).to eq(column_length)
+        expect(spots.length).to eq(column_length)
       end
 
       it 'has a count of zero' do
@@ -27,15 +27,15 @@ describe Column do
   describe 'full?' do
     subject(:new_column) { described_class.new }
 
-    context 'when squares is not full' do
+    context 'when column is not full' do
       it 'returns false' do
         expect(new_column.full?).to be false
       end
     end
 
-    context 'when squares is full' do
+    context 'when column is full' do
       it 'returns true' do
-        new_column.squares.map! { |_spot| '⚫' }
+        new_column.spots.map! { |_spot| '⚫' }
         expect(new_column.full?).to be true
       end
     end
