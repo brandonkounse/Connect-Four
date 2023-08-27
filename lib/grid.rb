@@ -19,10 +19,9 @@ class Grid
   end
 
   def update(column, symbol)
-    return :full if column.full?
+    return :success if column.update(symbol)
 
-    column.spots[(column.spots.length - 1) - column.current_count] = symbol
-    :success
+    :full
   end
 
   def rows
@@ -40,6 +39,7 @@ class Grid
 
   def full?
     @columns.each_pair.all? do |_key, value|
+      value.count
       value.full?
     end
   end
