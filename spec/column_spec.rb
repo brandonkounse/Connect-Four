@@ -15,7 +15,7 @@ describe Column do
       end
 
       it 'has a count of zero' do
-        expect(new_column.current_count).to be_zero
+        expect(new_column.count).to be_zero
       end
 
       it 'is not full' do
