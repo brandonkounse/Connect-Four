@@ -18,4 +18,24 @@ class Grid
       drop_piece(column, symbol, index - 1)
     end
   end
+
+  def render
+    row = format_grid
+    puts "\n #{row.shift(@spots.length).join(' | ')}" until row.empty?
+  end
+
+  private
+
+  def format
+    row = []
+    index = 0
+    row_length = 6
+    until index == row_length
+      @spots.each do |column|
+        row << column[index]
+      end
+      index += 1
+    end
+    row
+  end
 end
