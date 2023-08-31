@@ -39,53 +39,74 @@ describe Grid do
 
   describe 'four_in_column?' do
     subject(:grid) { described_class.new }
-    let(:column) { grid.spots[5] }
+    let(:column_index) { 5 }
     let(:red_symbol) { '🔴' }
     let(:black_symbol) { '⚫' }
 
     context 'when four pieces match vertically' do
       context 'when last four spots match' do
         before do
-          4.times { grid.drop_piece(5, red_symbol) }
+          4.times { grid.drop_piece(column_index, red_symbol) }
         end
 
         it 'returns true' do
-          expect(grid.four_in_column?(5, red_symbol)).to be true
+          expect(grid.four_in_column?(column_index, red_symbol)).to be true
         end
       end
 
       context 'when middle four spots match' do
         before do
-          grid.drop_piece(5, black_symbol)
-          4.times { grid.drop_piece(5, red_symbol) }
+          grid.drop_piece(column_index, black_symbol)
+          4.times { grid.drop_piece(column_index, red_symbol) }
         end
 
         it 'returns true' do
-          expect(grid.four_in_column?(5, red_symbol)).to be true
+          expect(grid.four_in_column?(column_index, red_symbol)).to be true
         end
       end
 
       context 'when top four spots match' do
         before do
-          2.times { grid.drop_piece(5, black_symbol) }
-          4.times { grid.drop_piece(5, red_symbol) }
+          2.times { grid.drop_piece(column_index, black_symbol) }
+          4.times { grid.drop_piece(column_index, red_symbol) }
         end
 
         it 'returns true' do
-          expect(grid.four_in_column?(5, red_symbol)).to be true
+          expect(grid.four_in_column?(column_index, red_symbol)).to be true
         end
       end
     end
 
     context 'when four pieces are not contiguous' do
       before do
-        2.times { grid.drop_piece(5, black_symbol) }
-        2.times { grid.drop_piece(5, red_symbol) }
-        2.times { grid.drop_piece(5, black_symbol) }
+        2.times { grid.drop_piece(column_index, black_symbol) }
+        2.times { grid.drop_piece(column_index, red_symbol) }
+        2.times { grid.drop_piece(column_index, black_symbol) }
       end
 
       it 'returns false' do
-        expect(grid.four_in_column?(5, black_symbol)).to be false
+        expect(grid.four_in_column?(column_index, black_symbol)).to be false
+      end
+    end
+  end
+
+  describe 'four_in_row?' do
+    subject(:grid) { described_class.new }
+    let(:last_row) { grid.spots.transpose[5] }
+    let(:row_index) { 5 }
+    let(:red_symbol) { '🔴' }
+    let(:black_symbol) { '⚫' }
+
+    context 'when first four match' do
+      before do
+        grid.drop_piece(0, red_symbol)
+        grid.drop_piece(1, red_symbol)
+        grid.drop_piece(2, red_symbol)
+        grid.drop_piece(3, red_symbol)
+      end
+
+      it 'returns true' do
+        expect(grid.four_in_row?(row_index, red_symbol)).to be true
       end
     end
   end
