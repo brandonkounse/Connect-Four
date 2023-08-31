@@ -21,8 +21,9 @@ class Grid
   end
 
   def render
-    row = arrange
-    puts "\n #{row.shift(@spots.length).join(' | ')}" until row.empty?
+    @spots.transpose.each do |row|
+      puts row.join(' | ')
+    end
   end
 
   def four_in_row?; end
@@ -37,19 +38,4 @@ class Grid
   def four_in_diagonal; end
 
   def four_in_reverse_diagonal; end
-
-  private
-
-  def arrange
-    row = []
-    index = 0
-    row_length = 6
-    until index == row_length
-      @spots.each do |column|
-        row << column[index]
-      end
-      index += 1
-    end
-    row
-  end
 end
