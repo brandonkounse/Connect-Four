@@ -109,5 +109,60 @@ describe Grid do
         expect(grid.four_in_row?(row_index, red_symbol)).to be true
       end
     end
+
+    context 'when second four match' do
+      before do
+        grid.drop_piece(1, red_symbol)
+        grid.drop_piece(2, red_symbol)
+        grid.drop_piece(3, red_symbol)
+        grid.drop_piece(4, red_symbol)
+      end
+
+      it 'returns true' do
+        expect(grid.four_in_row?(row_index, red_symbol)).to be true
+      end
+    end
+
+    context 'when third four match' do
+      before do
+        grid.drop_piece(2, red_symbol)
+        grid.drop_piece(3, red_symbol)
+        grid.drop_piece(4, red_symbol)
+        grid.drop_piece(5, red_symbol)
+      end
+
+      it 'returns true' do
+        expect(grid.four_in_row?(row_index, red_symbol)).to be true
+      end
+    end
+
+    context 'when last four match' do
+      before do
+        grid.drop_piece(3, red_symbol)
+        grid.drop_piece(4, red_symbol)
+        grid.drop_piece(5, red_symbol)
+        grid.drop_piece(6, red_symbol)
+      end
+
+      it 'returns true' do
+        expect(grid.four_in_row?(row_index, red_symbol)).to be true
+      end
+    end
+
+    context 'when four pieces are not contiguous' do
+      before do
+        grid.drop_piece(0, red_symbol)
+        grid.drop_piece(1, red_symbol)
+        grid.drop_piece(2, red_symbol)
+        grid.drop_piece(3, black_symbol)
+        grid.drop_piece(4, red_symbol)
+        grid.drop_piece(5, black_symbol)
+        grid.drop_piece(6, red_symbol)
+      end
+
+      it 'returns false' do
+        expect(grid.four_in_row?(row_index, red_symbol)).to be false
+      end
+    end
   end
 end
