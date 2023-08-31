@@ -165,4 +165,24 @@ describe Grid do
       end
     end
   end
+
+  describe 'four_in_diagonal?' do
+    subject(:grid) { described_class.new }
+    let(:red_symbol) { '🔴' }
+    let(:black_symbol) { '⚫' }
+
+    context 'when four pieces are in upright diagonal' do
+      before do
+        grid.drop_piece(0, black_symbol)
+        2.times { grid.drop_piece(1, black_symbol) }
+        3.times { grid.drop_piece(2, black_symbol) }
+        grid.drop_piece(3, red_symbol)
+        3.times { grid.drop_piece(3, black_symbol) }
+      end
+
+      it 'returns true' do
+        expect(grid.four_in_diagonal?(3, black_symbol)).to be true
+      end
+    end
+  end
 end
