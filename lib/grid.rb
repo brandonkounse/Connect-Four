@@ -26,7 +26,12 @@ class Grid
     end
   end
 
-  def four_in_row?; end
+  def four_in_row?(row_index, symbol)
+    winning_indices = [[0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
+    winning_indices.any? do |indices|
+      @spots.transpose[row_index][indices.first, indices.length].all? { |element| element == symbol }
+    end
+  end
 
   def four_in_column?(column_index, symbol)
     winning_indices = [[0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5]]
