@@ -31,8 +31,61 @@ describe Grid do
         6.times { grid.drop_piece(column, symbol) }
       end
 
-      it 'returns :full' do
-        expect(grid.drop_piece(column, symbol)).to be :full
+      it 'returns false' do
+        expect(grid.drop_piece(column, symbol)).to be false
+      end
+    end
+  end
+
+  describe 'four_in_column?' do
+    subject(:grid) { described_class.new }
+    let(:column) { grid.spots[5] }
+    let(:red_symbol) { '🔴' }
+    let(:black_symbol) { '⚫' }
+
+    context 'when four pieces match vertically' do
+      context 'when last four spots match' do
+        before do
+          4.times { grid.drop_piece(5, red_symbol) }
+        end
+
+        it 'returns true' do
+          expect(grid.four_in_column?(5, red_symbol)).to be true
+        end
+      end
+
+      context 'when middle four spots match' do
+        before do
+          grid.drop_piece(5, black_symbol)
+          4.times { grid.drop_piece(5, red_symbol) }
+        end
+
+        it 'returns true' do
+          expect(grid.four_in_column?(5, red_symbol)).to be true
+        end
+      end
+
+      context 'when top four spots match' do
+        before do
+          2.times { grid.drop_piece(5, black_symbol) }
+          4.times { grid.drop_piece(5, red_symbol) }
+        end
+
+        it 'returns true' do
+          expect(grid.four_in_column?(5, red_symbol)).to be true
+        end
+      end
+    end
+
+    context 'when four pieces are not contiguous' do
+      before do
+        2.times { grid.drop_piece(5, black_symbol) }
+        2.times { grid.drop_piece(5, red_symbol) }
+        2.times { grid.drop_piece(5, black_symbol) }
+      end
+
+      it 'returns false' do
+        expect(grid.four_in_column?(5, black_symbol)).to be false
       end
     end
   end
