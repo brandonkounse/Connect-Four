@@ -22,25 +22,40 @@ class Grid
 
   def render
     @spots.transpose.each do |row|
-      puts row.join(' | ')
+      puts "\n#{row.join(' | ')}"
     end
   end
 
   def four_in_row?(row_index, symbol)
-    winning_indices = [[0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
-    winning_indices.any? do |indices|
-      @spots.transpose[row_index][indices.first, indices.length].all? { |element| element == symbol }
-    end
+    row_indices = [[0, 4], [1, 4], [2, 4], [3, 4]]
+    check_sequence_of_four?(indices: row_indices, grid: @spots.transpose, index: row_index, token: symbol)
   end
 
   def four_in_column?(column_index, symbol)
-    winning_indices = [[0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5]]
-    winning_indices.any? do |indices|
-      @spots[column_index][indices.first, indices.length].all? { |element| element == symbol }
+    column_indices = [[0, 4], [1, 4], [2, 4]]
+    check_sequence_of_four?(indices: column_indices, grid: @spots, index: column_index, token: symbol)
+  end
+
+  def four_in_diagonal?(column_index, symbol)
+    diagonal_indices = [[1, 1], [1, -1], [-1, 1], [-1, -1]]
+    row_index = @spots[column_index].count(EMPTY_SPOT)
+    diagonal_indices.any? do |direction|
+      mini = [[column_index, row_index]]
+      y = direction[0]
+      x = direction[1]
+      until mini.length == 4 || !(mini.last[0] + y).between?(0, 5) || !(mini.last[1] + x).between?(0, 6)
+        mini << [(mini.last[0] + y), (mini.last[1] + x)]
+      end
+      mini.map! { @spots[y][x] }
+      mini.all? { |element| element == symbol }
     end
   end
 
-  def four_in_diagonal; end
+  private
 
-  def four_in_reverse_diagonal; end
+  def check_sequence_of_four?(indices:, grid:, index:, token:)
+    indices.any? do |sequence|
+      grid[index][sequence.first, sequence.last].all? { |element| element == token }
+    end
+  end
 end
