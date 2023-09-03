@@ -14,14 +14,14 @@ class Grid
     columns.transpose
   end
 
-  def drop_piece(index, symbol, position = 5)
+  def update_column(index, symbol, position = 5)
     if columns[index][position].nil?
       false
     elsif columns[index][position] == EMPTY_SPOT
       columns[index][position] = symbol
       true
     else
-      drop_piece(index, symbol, position - 1)
+      update_column(index, symbol, position - 1)
     end
   end
 

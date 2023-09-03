@@ -8,7 +8,7 @@ describe Grid do
   let(:red_symbol) { '🔴' }
   let(:black_symbol) { '⚫' }
 
-  describe 'drop_piece' do
+  describe 'update_column' do
     let(:index) { 6 }
     let(:black_symbol) { '⚫' }
 
@@ -16,7 +16,7 @@ describe Grid do
       let(:position) { 5 }
 
       it 'drops piece to bottom spot' do
-        expect { grid.drop_piece(index, black_symbol) }.to change { grid.columns[index][position] }.to(black_symbol)
+        expect { grid.update_column(index, black_symbol) }.to change { grid.columns[index][position] }.to(black_symbol)
       end
     end
 
@@ -24,18 +24,18 @@ describe Grid do
       let(:next_position) { 4 }
 
       it 'drops piece on top of last one' do
-        grid.drop_piece(index, black_symbol)
-        expect { grid.drop_piece(index, black_symbol) }.to change { grid.columns[index][next_position] }.to(black_symbol)
+        grid.update_column(index, black_symbol)
+        expect { grid.update_column(index, black_symbol) }.to change { grid.columns[index][next_position] }.to(black_symbol)
       end
     end
 
     context 'when column is full' do
       before do
-        6.times { grid.drop_piece(index, black_symbol) }
+        6.times { grid.update_column(index, black_symbol) }
       end
 
       it 'returns false' do
-        expect(grid.drop_piece(index, black_symbol)).to be false
+        expect(grid.update_column(index, black_symbol)).to be false
       end
     end
   end
@@ -46,7 +46,7 @@ describe Grid do
     context 'when four pieces match vertically' do
       context 'when last four spots match' do
         before do
-          4.times { grid.drop_piece(column_index, red_symbol) }
+          4.times { grid.update_column(column_index, red_symbol) }
         end
 
         it 'returns true' do
@@ -56,8 +56,8 @@ describe Grid do
 
       context 'when middle four spots match' do
         before do
-          grid.drop_piece(column_index, black_symbol)
-          4.times { grid.drop_piece(column_index, red_symbol) }
+          grid.update_column(column_index, black_symbol)
+          4.times { grid.update_column(column_index, red_symbol) }
         end
 
         it 'returns true' do
@@ -67,8 +67,8 @@ describe Grid do
 
       context 'when top four spots match' do
         before do
-          2.times { grid.drop_piece(column_index, black_symbol) }
-          4.times { grid.drop_piece(column_index, red_symbol) }
+          2.times { grid.update_column(column_index, black_symbol) }
+          4.times { grid.update_column(column_index, red_symbol) }
         end
 
         it 'returns true' do
@@ -79,9 +79,9 @@ describe Grid do
 
     context 'when four pieces are not contiguous' do
       before do
-        2.times { grid.drop_piece(column_index, black_symbol) }
-        2.times { grid.drop_piece(column_index, red_symbol) }
-        2.times { grid.drop_piece(column_index, black_symbol) }
+        2.times { grid.update_column(column_index, black_symbol) }
+        2.times { grid.update_column(column_index, red_symbol) }
+        2.times { grid.update_column(column_index, black_symbol) }
       end
 
       it 'returns false' do
@@ -96,10 +96,10 @@ describe Grid do
 
     context 'when first four match' do
       before do
-        grid.drop_piece(0, red_symbol)
-        grid.drop_piece(1, red_symbol)
-        grid.drop_piece(2, red_symbol)
-        grid.drop_piece(3, red_symbol)
+        grid.update_column(0, red_symbol)
+        grid.update_column(1, red_symbol)
+        grid.update_column(2, red_symbol)
+        grid.update_column(3, red_symbol)
       end
 
       it 'returns true' do
@@ -109,10 +109,10 @@ describe Grid do
 
     context 'when second four match' do
       before do
-        grid.drop_piece(1, red_symbol)
-        grid.drop_piece(2, red_symbol)
-        grid.drop_piece(3, red_symbol)
-        grid.drop_piece(4, red_symbol)
+        grid.update_column(1, red_symbol)
+        grid.update_column(2, red_symbol)
+        grid.update_column(3, red_symbol)
+        grid.update_column(4, red_symbol)
       end
 
       it 'returns true' do
@@ -122,10 +122,10 @@ describe Grid do
 
     context 'when third four match' do
       before do
-        grid.drop_piece(2, red_symbol)
-        grid.drop_piece(3, red_symbol)
-        grid.drop_piece(4, red_symbol)
-        grid.drop_piece(5, red_symbol)
+        grid.update_column(2, red_symbol)
+        grid.update_column(3, red_symbol)
+        grid.update_column(4, red_symbol)
+        grid.update_column(5, red_symbol)
       end
 
       it 'returns true' do
@@ -135,10 +135,10 @@ describe Grid do
 
     context 'when last four match' do
       before do
-        grid.drop_piece(3, red_symbol)
-        grid.drop_piece(4, red_symbol)
-        grid.drop_piece(5, red_symbol)
-        grid.drop_piece(6, red_symbol)
+        grid.update_column(3, red_symbol)
+        grid.update_column(4, red_symbol)
+        grid.update_column(5, red_symbol)
+        grid.update_column(6, red_symbol)
       end
 
       it 'returns true' do
@@ -148,13 +148,13 @@ describe Grid do
 
     context 'when four pieces are not contiguous' do
       before do
-        grid.drop_piece(0, red_symbol)
-        grid.drop_piece(1, red_symbol)
-        grid.drop_piece(2, red_symbol)
-        grid.drop_piece(3, black_symbol)
-        grid.drop_piece(4, red_symbol)
-        grid.drop_piece(5, black_symbol)
-        grid.drop_piece(6, red_symbol)
+        grid.update_column(0, red_symbol)
+        grid.update_column(1, red_symbol)
+        grid.update_column(2, red_symbol)
+        grid.update_column(3, black_symbol)
+        grid.update_column(4, red_symbol)
+        grid.update_column(5, black_symbol)
+        grid.update_column(6, red_symbol)
       end
 
       it 'returns false' do
@@ -166,11 +166,11 @@ describe Grid do
   describe 'four_in_diagonal?' do
     context 'when four pieces are in upright diagonal' do
       before do
-        grid.drop_piece(0, black_symbol)
-        2.times { grid.drop_piece(1, black_symbol) }
-        3.times { grid.drop_piece(2, black_symbol) }
-        grid.drop_piece(3, red_symbol)
-        3.times { grid.drop_piece(3, black_symbol) }
+        grid.update_column(0, black_symbol)
+        2.times { grid.update_column(1, black_symbol) }
+        3.times { grid.update_column(2, black_symbol) }
+        grid.update_column(3, red_symbol)
+        3.times { grid.update_column(3, black_symbol) }
       end
 
       it 'returns true' do
