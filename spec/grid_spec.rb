@@ -4,44 +4,44 @@ require_relative 'spec_helper'
 require_relative '../lib/grid'
 
 describe Grid do
+  subject(:grid) { described_class.new }
+  let(:red_symbol) { '🔴' }
+  let(:black_symbol) { '⚫' }
+
   describe 'drop_piece' do
-    subject(:grid) { described_class.new }
-    let(:column) { 6 }
-    let(:symbol) { '⚫' }
+    let(:index) { 6 }
+    let(:black_symbol) { '⚫' }
 
     context 'when column is empty' do
-      let(:index) { 5 }
+      let(:position) { 5 }
 
       it 'drops piece to bottom spot' do
-        expect { grid.drop_piece(column, symbol) }.to change { grid.spots[column][index] }.to(symbol)
+        expect { grid.drop_piece(index, black_symbol) }.to change { grid.columns[index][position] }.to(black_symbol)
       end
     end
 
     context 'when same column has one piece' do
-      let(:next_index) { 4 }
+      let(:next_position) { 4 }
 
       it 'drops piece on top of last one' do
-        grid.drop_piece(column, symbol)
-        expect { grid.drop_piece(column, symbol) }.to change { grid.spots[column][next_index] }.to(symbol)
+        grid.drop_piece(index, black_symbol)
+        expect { grid.drop_piece(index, black_symbol) }.to change { grid.columns[index][next_position] }.to(black_symbol)
       end
     end
 
     context 'when column is full' do
       before do
-        6.times { grid.drop_piece(column, symbol) }
+        6.times { grid.drop_piece(index, black_symbol) }
       end
 
       it 'returns false' do
-        expect(grid.drop_piece(column, symbol)).to be false
+        expect(grid.drop_piece(index, black_symbol)).to be false
       end
     end
   end
 
   describe 'four_in_column?' do
-    subject(:grid) { described_class.new }
     let(:column_index) { 5 }
-    let(:red_symbol) { '🔴' }
-    let(:black_symbol) { '⚫' }
 
     context 'when four pieces match vertically' do
       context 'when last four spots match' do
@@ -91,11 +91,8 @@ describe Grid do
   end
 
   describe 'four_in_row?' do
-    subject(:grid) { described_class.new }
-    let(:last_row) { grid.spots.transpose[5] }
+    let(:last_row) { grid.rows[5] }
     let(:row_index) { 5 }
-    let(:red_symbol) { '🔴' }
-    let(:black_symbol) { '⚫' }
 
     context 'when first four match' do
       before do
@@ -167,10 +164,6 @@ describe Grid do
   end
 
   describe 'four_in_diagonal?' do
-    subject(:grid) { described_class.new }
-    let(:red_symbol) { '🔴' }
-    let(:black_symbol) { '⚫' }
-
     context 'when four pieces are in upright diagonal' do
       before do
         grid.drop_piece(0, black_symbol)
