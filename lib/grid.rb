@@ -4,56 +4,61 @@
 class Grid
   EMPTY_SPOT = '⚪'
   SEQUENCE_LENGTH = 4
-  attr_reader :spots
+  attr_reader :columns
 
   def initialize
-    @spots = Array.new(7) { Array.new(6) { EMPTY_SPOT } }
+    @columns = Array.new(7) { Array.new(6) { EMPTY_SPOT } }
   end
 
-  def drop_piece(column, symbol, index = 5)
-    if @spots[column][index].nil?
+  def rows
+    columns.transpose
+  end
+
+  def drop_piece(index, symbol, position = 5)
+    if columns[index][position].nil?
       false
-    elsif @spots[column][index] == EMPTY_SPOT
-      @spots[column][index] = symbol
+    elsif columns[index][position] == EMPTY_SPOT
+      columns[index][position] = symbol
       true
     else
-      drop_piece(column, symbol, index - 1)
+      drop_piece(index, symbol, position - 1)
     end
   end
 
   def render
-    @spots.transpose.each do |row|
+    rows.each do |row|
       puts "\n#{row.join(' | ')}"
     end
   end
 
-  def four_in_row?(row_index, symbol)
-    check_sequence_of_four?(grid: @spots.transpose, index: row_index, token: symbol)
+  def four_in_row?(index, symbol)
+    check_sequence_of_four?(subset: rows[index], token: symbol)
   end
 
-  def four_in_column?(column_index, symbol)
-    check_sequence_of_four?(grid: @spots, index: column_index, token: symbol)
+  def four_in_column?(index, symbol)
+    check_sequence_of_four?(subset: columns[index], token: symbol)
   end
 
   def four_in_diagonal?(column_index, symbol)
     down_right = [[1, 1], [-1, -1]]
     up_right = [[1, -1], [-1, 1]]
-    get_full_diagonal(column_index, down_right)
-    get_full_diagonal(column_index, up_right)
+    diagonal = construct_diagonal(column_index, down_right)
+    anti_diagonal = construct_diagonal(column_index, up_right)
+    check_sequence_of_four?(subset: diagonal, token: symbol) || check_sequence_of_four?(subset: anti_diagonal, token: symbol)
   end
 
   private
 
-  def check_sequence_of_four?(grid:, index:, token:)
+  def check_sequence_of_four?(subset:, token:)
     first_iteration = 0
-    max_iterations = grid[index].length % SEQUENCE_LENGTH
+    max_iterations = subset.length % SEQUENCE_LENGTH
     (first_iteration..max_iterations).any? do |iteration|
-      grid[index][iteration, SEQUENCE_LENGTH].all? { |element| element == token }
+      subset[iteration, SEQUENCE_LENGTH].all? { |element| element == token }
     end
   end
 
-  def get_full_diagonal(column_index, directional_indices)
-    row_index = @spots[column_index].count(EMPTY_SPOT)
+  def construct_diagonal(column_index, directional_indices)
+    row_index = columns[column_index].count(EMPTY_SPOT)
     subset = [[column_index, row_index]]
     directional_indices.each do |direction|
       y = direction[0]
@@ -63,6 +68,6 @@ class Grid
         subset << next_spot
       end
     end
-    subset.uniq.sort.map { |x, y| @spots[x][y] }
+    subset.uniq.sort.map { |x, y| columns[x][y] }
   end
 end
