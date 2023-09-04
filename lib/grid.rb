@@ -24,7 +24,7 @@ class Grid
 
   def render
     rows.each do |row|
-      puts "\n  #{row.join(' | ')}"
+      puts "\n #{row.join(' | ')}"
     end
   end
 
