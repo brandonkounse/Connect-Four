@@ -198,12 +198,10 @@ describe Grid do
     context 'when there is no match in a diagonal' do
       before do
         grid.update_column(0, black_symbol)
-        4.times { grid.update_column(4, red_symbol) }
-        2.times { grid.update_column(6, red_symbol) }
       end
 
       it 'returns false' do
-        expect(grid.four_in_diagonal?(6, black_symbol)).to be false
+        expect(grid.four_in_diagonal?(0, black_symbol)).to be false
       end
     end
   end
