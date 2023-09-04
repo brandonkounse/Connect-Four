@@ -24,7 +24,7 @@ class Grid
 
   def render
     rows.each do |row|
-      puts "\n#{row.join(' | ')}"
+      puts "\n  #{row.join(' | ')}"
     end
   end
 
@@ -42,7 +42,8 @@ class Grid
     up_right = [[1, -1], [-1, 1]]
     diagonal = construct_diagonal(column_index, down_right)
     anti_diagonal = construct_diagonal(column_index, up_right)
-    check_sequence_of_four?(subset: diagonal, token: symbol) || check_sequence_of_four?(subset: anti_diagonal, token: symbol)
+    check_sequence_of_four?(subset: diagonal, token: symbol) ||
+      check_sequence_of_four?(subset: anti_diagonal, token: symbol)
   end
 
   private
@@ -59,16 +60,17 @@ class Grid
     first_iteration = 0
     max_iterations = subset.length % SEQUENCE_LENGTH
     (first_iteration..max_iterations).any? do |iteration|
-      subset[iteration, SEQUENCE_LENGTH].all? { |element| element == token }
+      subset[iteration, SEQUENCE_LENGTH].length == SEQUENCE_LENGTH &&
+        subset[iteration, SEQUENCE_LENGTH].all? { |element| element == token }
     end
   end
 
   def construct_diagonal(index, directional_indices)
     subset = [[index, top_row_at(index)]]
     directional_indices.each do |direction|
-      y = direction[0]
-      x = direction[1]
-      until !(subset.last[0] + y).between?(0, 6) || !(subset.last[1] + x).between?(0, 7)
+      y = direction[0] # column
+      x = direction[1] # row
+      until !(subset.last[0] + y).between?(0, 6) || !(subset.last[1] + x).between?(0, 5)
         next_spot = [(subset.last[0] + y), (subset.last[1] + x)]
         subset << next_spot
       end
