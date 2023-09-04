@@ -10,7 +10,6 @@ describe Grid do
 
   describe 'update_column' do
     let(:index) { 6 }
-    let(:black_symbol) { '⚫' }
 
     context 'when column is empty' do
       let(:position) { 5 }
@@ -92,7 +91,6 @@ describe Grid do
 
   describe 'four_in_row?' do
     let(:last_row) { grid.rows[5] }
-    let(:row_index) { 5 }
 
     context 'when first four match' do
       before do
@@ -103,7 +101,8 @@ describe Grid do
       end
 
       it 'returns true' do
-        expect(grid.four_in_row?(row_index, red_symbol)).to be true
+        last_drop = 3
+        expect(grid.four_in_row?(last_drop, red_symbol)).to be true
       end
     end
 
@@ -116,7 +115,8 @@ describe Grid do
       end
 
       it 'returns true' do
-        expect(grid.four_in_row?(row_index, red_symbol)).to be true
+        last_drop = 4
+        expect(grid.four_in_row?(last_drop, red_symbol)).to be true
       end
     end
 
@@ -129,7 +129,8 @@ describe Grid do
       end
 
       it 'returns true' do
-        expect(grid.four_in_row?(row_index, red_symbol)).to be true
+        last_drop = 5
+        expect(grid.four_in_row?(last_drop, red_symbol)).to be true
       end
     end
 
@@ -142,7 +143,8 @@ describe Grid do
       end
 
       it 'returns true' do
-        expect(grid.four_in_row?(row_index, red_symbol)).to be true
+        last_drop = 6
+        expect(grid.four_in_row?(last_drop, red_symbol)).to be true
       end
     end
 
@@ -158,7 +160,8 @@ describe Grid do
       end
 
       it 'returns false' do
-        expect(grid.four_in_row?(row_index, red_symbol)).to be false
+        last_drop = 6
+        expect(grid.four_in_row?(last_drop, red_symbol)).to be false
       end
     end
   end
@@ -175,6 +178,32 @@ describe Grid do
 
       it 'returns true' do
         expect(grid.four_in_diagonal?(3, black_symbol)).to be true
+      end
+    end
+
+    context 'when four pieces are in downright diagonal' do
+      before do
+        grid.update_column(6, black_symbol)
+        2.times { grid.update_column(5, black_symbol) }
+        3.times { grid.update_column(4, black_symbol) }
+        grid.update_column(3, red_symbol)
+        3.times { grid.update_column(3, black_symbol) }
+      end
+
+      it 'returns true' do
+        expect(grid.four_in_diagonal?(3, black_symbol)).to be true
+      end
+    end
+
+    context 'when there is no match in a diagonal' do
+      before do
+        grid.update_column(0, black_symbol)
+        4.times { grid.update_column(4, red_symbol) }
+        2.times { grid.update_column(6, red_symbol) }
+      end
+
+      it 'returns false' do
+        expect(grid.four_in_diagonal?(6, black_symbol)).to be false
       end
     end
   end
