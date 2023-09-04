@@ -4,14 +4,11 @@
 class Grid
   EMPTY_SPOT = '⚪'
   SEQUENCE_LENGTH = 4
+
   attr_reader :columns
 
   def initialize
     @columns = Array.new(7) { Array.new(6) { EMPTY_SPOT } }
-  end
-
-  def rows
-    columns.transpose
   end
 
   def update_column(index, symbol, position = 5)
@@ -31,7 +28,8 @@ class Grid
     end
   end
 
-  def four_in_row?(index, symbol)
+  def four_in_row?(column_index, symbol)
+    index = top_row_at(column_index)
     check_sequence_of_four?(subset: rows[index], token: symbol)
   end
 
@@ -49,6 +47,14 @@ class Grid
 
   private
 
+  def rows
+    columns.transpose
+  end
+
+  def top_row_at(column_index)
+    columns[column_index].count(EMPTY_SPOT)
+  end
+
   def check_sequence_of_four?(subset:, token:)
     first_iteration = 0
     max_iterations = subset.length % SEQUENCE_LENGTH
@@ -57,9 +63,8 @@ class Grid
     end
   end
 
-  def construct_diagonal(column_index, directional_indices)
-    row_index = columns[column_index].count(EMPTY_SPOT)
-    subset = [[column_index, row_index]]
+  def construct_diagonal(index, directional_indices)
+    subset = [[index, top_row_at(index)]]
     directional_indices.each do |direction|
       y = direction[0]
       x = direction[1]
