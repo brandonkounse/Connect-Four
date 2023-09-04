@@ -205,4 +205,22 @@ describe Grid do
       end
     end
   end
+
+  describe 'full?' do
+    context 'when grid contains EMPTY SPOTS' do
+      it 'returns false' do
+        expect(grid.full?).to be false
+      end
+    end
+
+    context 'when grid has no EMPTY SPOTS' do
+      before do
+        grid.columns.each { |column| column.map! { red_symbol } }
+      end
+
+      it 'returns true' do
+        expect(grid.full?).to be true
+      end
+    end
+  end
 end

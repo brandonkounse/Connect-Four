@@ -46,6 +46,10 @@ class Grid
       check_sequence_of_four?(subset: anti_diagonal, token: symbol)
   end
 
+  def full?
+    columns.all? { |column| column.count(EMPTY_SPOT).zero? }
+  end
+
   private
 
   def rows
