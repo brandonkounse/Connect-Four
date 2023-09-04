@@ -8,12 +8,14 @@ require_relative 'instructions'
 class ConnectFour
   RED = '🔴'
   BLACK = '⚫'
-  attr_reader :grid, :player_red, :player_black
+
+  attr_reader :grid, :player_red, :player_black, :previous_move
 
   def initialize
     @grid = Grid.new
     @player_red = Player.new(symbol: RED)
     @player_black = Player.new(symbol: BLACK)
+    @previous_move = nil
   end
 
   def start
@@ -22,6 +24,7 @@ class ConnectFour
       case gets.chomp
       when '1'
         play
+        break
       when '2'
         break
       else
@@ -30,17 +33,18 @@ class ConnectFour
     end
   end
 
+  private
+
   def play
     loop do
-      handle_turn(@player_red)
-      break if over?(@player_red)
+      handle_turn(player_red)
+      break if over?(player_red)
 
-      handle_turn(@player_black)
-      break if over?(@player_black)
+      handle_turn(player_black)
+      break if over?(player_black)
     end
+    ending
   end
-
-  private
 
   def handle_turn(player)
     system 'clear'
@@ -52,7 +56,7 @@ class ConnectFour
   def take_turn(player)
     loop do
       selection = prompt_for_column(player)
-      break if drop_piece(selection, player.symbol) == :success
+      break if drop_piece(selection, player.symbol)
 
       print 'Column full! Pick another column: '
     end
@@ -73,21 +77,41 @@ class ConnectFour
 
   def drop_piece(column, symbol)
     column_index = column.to_i - 1
-    selected_column = @grid.columns.keys[column_index]
-    @grid.update(@grid.columns[selected_column], symbol)
-  end
-
-  def over?(player)
-    # check if player has won
-    draw?
-  end
-
-  def draw?
-    @grid.full?
+    @previous_move = column_index
+    grid.update_column(column_index, symbol)
   end
 
   def display_grid
-    current_grid = @grid.rows
-    puts "\n #{current_grid.shift(7).join('  | ')}" until current_grid.empty?
+    grid.render
+  end
+
+  def victory?(player)
+    grid.four_in_row?(previous_move, player.symbol) ||
+      grid.four_in_column?(previous_move, player.symbol) ||
+      grid.four_in_diagonal?(previous_move, player.symbol)
+  end
+
+  def draw?
+    grid.full?
+  end
+
+  def over?(player)
+    grid.full? || victory?(player)
+  end
+
+  def end_message(player_red, player_black)
+    if draw?
+      puts "\n It's a draw! Better luck next time! \n\n"
+    elsif victory?(player_red)
+      puts "\n Player #{player_red.symbol} is the winner! \n\n"
+    else
+      puts "\n Player #{player_black.symbol} is the winner! \n\n"
+    end
+  end
+
+  def ending
+    system 'clear'
+    display_grid
+    end_message(player_red, player_black)
   end
 end
