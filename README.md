@@ -1,4 +1,4 @@
-###Connect Four
+# Connect Four
 
 Connect Four is a game where each player takes turns picking a column to drop their respective colored piece into. To win a game of Connect Four, a player must get 4 matching colored pieces either horizontally, vertically, or diagonally.
 
